@@ -34,18 +34,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-/**
- * Jobs are the basic unit of work of onyx scheduler. They host the logic to be executed once the
- * given triggers are fired and required configuration to be able to serialize/de-serialize these
- * jobs from/to JSON. <p/> Additionally they currently have the logic for handling the interaction
- * with underlying quartz creating jobs and triggers from jobDetails and quartz Triggers, and vice
- * versa. <p/> When creating a new Job type (for example if you want some job for queuing in
- * RabbitMQ or whatever) you just have to extend this class implementing the run method and add the
- * appropriate JsonSubTypes.Type configuration in this file mapping the class to the appropriate
- * value of type field of the JSON representation. <p/> As they currently host interaction with
- * quartz Jobs, they need to provide proper buildQuartzJobDetail implementation to be able to
- * restore all needed configuration needed by run and parsed by initFromQuartzJobDataMap.
- */
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({@JsonSubTypes.Type(value = HttpJob.class, name = "http")})
 public abstract class Job implements org.quartz.Job, Runnable {
